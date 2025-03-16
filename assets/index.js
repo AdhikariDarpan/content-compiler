@@ -175,10 +175,20 @@ function downloadHTML() {
   ${bodyContent}
   ${js ? `<script>\n${js}\n</script>` : ""}
   <script>
-    console.log(
-    "%cDocumentation! \nhttps://darpanadhikari.com.np",
-    "font-size: 40px; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); background: linear-gradient(to right, blue, purple); padding: 10px;"
-    );
+   const colors = ["blue", "purple", "red", "green", "orange","grey","white","black"];
+ let index = 0;
+ function animateConsoleLog() {
+     console.clear();
+     console.log(
+         'https://darpanadhikari.com.np',
+         'font-size: 40px; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); 
+         background: linear-gradient(to right, ${colors[index]}, ${colors[(index + 1) % colors.length]}); 
+         padding: 10px;'
+     );
+     index = (index + 1) % colors.length;
+     setTimeout(animateConsoleLog, 500);
+ }
+ animateConsoleLog();
   </script>
 </body>
 </html>`;
