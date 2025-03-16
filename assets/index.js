@@ -140,7 +140,7 @@ function extractInlineStylesAndScripts(htmlContent) {
       return formattedHtml;
   }
   let formattedHtml = formatHTML(doc.body, 2);
-  let html = `<!DOCTYPE html>\n<html>\n<head>\n<title>Fetched code | Darpan Developer</title>\n</head>\n<body>\n${formattedHtml}</body>\n</html>`;
+  let html = `<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body>\n${formattedHtml}</body>\n</html>`;
   htmlInput.value = html;
   cssOutput.value = cssContent.trim();
   jsOutput.value = jsContent.trim();
@@ -154,15 +154,13 @@ function downloadHTML() {
   let parser = new DOMParser();
   let doc = parser.parseFromString(html, "text/html");
   let existingStyle = "";
-  const styleTags = doc.head.querySelectorAll("style");
+  const styleTags = doc.querySelectorAll("style");
   styleTags.forEach(style => {
     existingStyle += style.innerHTML + "\n";
-    style.remove(); 
+    style.remove();
   });
   let combinedCSS = existingStyle + css;
-
   let bodyContent = doc.body.innerHTML;
-
   let completeHTML = `<!DOCTYPE html>
 <html>
 <head>
@@ -177,10 +175,10 @@ function downloadHTML() {
   ${bodyContent}
   ${js ? `<script>\n${js}\n</script>` : ""}
   <script>
-     console.log(
-      "%cDocumentation! \nhttps://darpanadhikari.com.np",
-      "font-size: 40px; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); background: linear-gradient(to right, blue, purple); padding: 10px;"
-      );
+    console.log(
+    "%cDocumentation! \nhttps://darpanadhikari.com.np",
+    "font-size: 40px; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); background: linear-gradient(to right, blue, purple); padding: 10px;"
+    );
   </script>
 </body>
 </html>`;
