@@ -150,9 +150,19 @@ function downloadHTML() {
   const html = document.getElementById("htmlCode").value.trim();
   const css = document.getElementById("cssCode").value.trim();
   const js = document.getElementById("jsCode").value.trim();
+
   let parser = new DOMParser();
   let doc = parser.parseFromString(html, "text/html");
+  let existingStyle = "";
+  const styleTags = doc.head.querySelectorAll("style");
+  styleTags.forEach(style => {
+    existingStyle += style.innerHTML + "\n";
+    style.remove(); 
+  });
+  let combinedCSS = existingStyle + css;
+
   let bodyContent = doc.body.innerHTML;
+
   let completeHTML = `<!DOCTYPE html>
 <html>
 <head>
@@ -160,7 +170,7 @@ function downloadHTML() {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Generated HTML</title>
   <style>
-      ${css}
+      ${combinedCSS}
   </style>
 </head>
 <body>
@@ -168,6 +178,7 @@ function downloadHTML() {
   ${js ? `<script>\n${js}\n</script>` : ""}
 </body>
 </html>`;
+
   const blob = new Blob([completeHTML], { type: "text/html" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
